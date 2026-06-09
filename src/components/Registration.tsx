@@ -169,11 +169,11 @@ function PaymentStep({
         <h4 className="text-sm font-black uppercase tracking-widest mb-4 pb-2 border-b-2 border-brand">
           Datos para Transferencia
         </h4>
-        <div className="grid sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-2 gap-2 md:gap-3">
           {bankRows.map(([k, v]) => (
-            <div key={k} className="bg-white p-3 border-l-2 border-zinc-200">
-              <p className="text-xs uppercase tracking-widest text-zinc-400">{k}</p>
-              <p className="font-bold text-zinc-800 break-all">{v}</p>
+            <div key={k} className="bg-white p-2 md:p-3 border-l-2 border-zinc-200">
+              <p className="text-[9px] md:text-xs uppercase tracking-widest text-zinc-400">{k}</p>
+              <p className="text-xs md:text-sm font-bold text-zinc-800 break-all">{v}</p>
             </div>
           ))}
         </div>
@@ -605,28 +605,28 @@ const Registration: React.FC = () => {
           <p className="text-zinc-600 text-lg uppercase tracking-widest">{cfg.description}</p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 mb-12">
+        <div className="grid grid-cols-2 gap-3 md:gap-6 mb-12">
           <button
             onClick={() => setSelectedType('individual')}
-            className={`p-8 border-2 flex flex-col items-center gap-4 transition-all ${
+            className={`p-4 md:p-8 border-2 flex flex-col items-center gap-2 md:gap-4 transition-all ${
               selectedType === 'individual'
                 ? 'border-brand bg-brand-light'
                 : 'border-zinc-200 hover:border-orange-300'
             }`}
           >
-            <User size={40} className={selectedType === 'individual' ? 'text-brand' : 'text-zinc-400'} />
-            <span className="font-black uppercase italic tracking-widest text-xl">Individual</span>
+            <User className={`w-6 h-6 md:w-10 md:h-10 ${selectedType === 'individual' ? 'text-brand' : 'text-zinc-400'}`} />
+            <span className="font-black uppercase italic tracking-widest text-sm md:text-xl">Individual</span>
           </button>
           <button
             onClick={() => setSelectedType('team')}
-            className={`p-8 border-2 flex flex-col items-center gap-4 transition-all ${
+            className={`p-4 md:p-8 border-2 flex flex-col items-center gap-2 md:gap-4 transition-all ${
               selectedType === 'team'
                 ? 'border-brand bg-brand-light'
                 : 'border-zinc-200 hover:border-orange-300'
             }`}
           >
-            <Users size={40} className={selectedType === 'team' ? 'text-brand' : 'text-zinc-400'} />
-            <span className="font-black uppercase italic tracking-widest text-xl">Grupal</span>
+            <Users className={`w-6 h-6 md:w-10 md:h-10 ${selectedType === 'team' ? 'text-brand' : 'text-zinc-400'}`} />
+            <span className="font-black uppercase italic tracking-widest text-sm md:text-xl">Grupal</span>
           </button>
         </div>
 
