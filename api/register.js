@@ -152,9 +152,10 @@ export default async function handler(req, res) {
   try {
     cfg = getConfig();
   } catch (e) {
-    console.error('Config error:', e.message);
+    console.error('[register] Config error:', e.message);
     return res.status(500).json({ success: false, message: 'Error de configuración del servidor.' });
   }
+  console.log('[register] SMTP host:', cfg.smtp.host, '| port:', cfg.smtp.port, '| user:', cfg.smtp.auth.user);
 
   const transporter = nodemailer.createTransport({
     host: cfg.smtp.host,
@@ -186,7 +187,7 @@ export default async function handler(req, res) {
 
     res.json({ success: true });
   } catch (error) {
-    console.error('Email error:', error.message);
+    console.error('[register] Email error:', error.message, error.code, error.response);
     res.status(500).json({ success: false, message: 'Error al enviar correos.' });
   }
 }
