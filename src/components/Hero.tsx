@@ -29,22 +29,45 @@ const Hero: React.FC = () => {
 
   const renderBackground = () => {
     switch (data.video.type) {
-      case 'youtube':
+      case 'youtube': {
+        const videoId = data.video.src.split('/').pop();
         return (
           <iframe
-            className="w-full h-full object-cover scale-[1.5]"
-            src={`${data.video.src}?autoplay=1&mute=1&loop=1&playlist=${data.video.src.split('/').pop()}&controls=0&showinfo=0&rel=0`}
+            src={`${data.video.src}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
             allow="autoplay; fullscreen"
-            frameBorder="0"
+            allowFullScreen
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              width: '100vw',
+              height: '56.25vw',   /* 16:9 basado en ancho */
+              minHeight: '100vh',
+              minWidth: '177.78vh', /* 16:9 basado en alto — cubre móvil vertical */
+              transform: 'translate(-50%, -50%)',
+              pointerEvents: 'none',
+              border: 'none',
+            }}
           />
         );
+      }
       case 'vimeo':
         return (
           <iframe
             src={`${data.video.src}?autoplay=1&loop=1&background=1&muted=1`}
-            className="w-full h-full object-cover scale-[1.5]"
             allow="autoplay; fullscreen"
-            frameBorder="0"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              width: '100vw',
+              height: '56.25vw',
+              minHeight: '100vh',
+              minWidth: '177.78vh',
+              transform: 'translate(-50%, -50%)',
+              pointerEvents: 'none',
+              border: 'none',
+            }}
           />
         );
       case 'local':
@@ -105,10 +128,10 @@ const Hero: React.FC = () => {
       </AnimatePresence>
 
       {/* ── Hero section ───────────────────────────────────────────────────── */}
-      <section id="home" className="relative h-screen w-full overflow-hidden flex items-center justify-center pt-20">
-        <div className="absolute inset-0 z-0">
+      <section id="home" className="relative w-full overflow-hidden flex items-center justify-center pt-20" style={{ height: '100dvh' }}>
+        <div className="absolute inset-0 z-0" style={{ willChange: 'transform', transform: 'translateZ(0)' }}>
           <div className="absolute inset-0 bg-black/60 z-10" />
-          <div className="w-full h-full">
+          <div className="relative w-full h-full overflow-hidden">
             {renderBackground()}
           </div>
         </div>

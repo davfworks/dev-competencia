@@ -32,9 +32,10 @@ const Navbar: React.FC = () => {
   return (
     <nav
       className={cn(
-        'fixed top-0 left-0 right-0 z-[60] transition-all duration-300 px-6 py-4',
+        'fixed top-0 left-0 right-0 z-[60] transition-colors duration-300 px-6 py-4',
         isScrolled ? 'bg-[#512286]/95 backdrop-blur-md shadow-lg' : 'bg-black/30'
       )}
+      style={{ willChange: 'background-color', transform: 'translateZ(0)' }}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
 
