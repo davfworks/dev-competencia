@@ -18,7 +18,7 @@ const Hero: React.FC = () => {
   const data = heroData as HeroData;
   const [editionTop, editionBottom] = splitAtLastSpace(data.edition);
   const [dateTop, dateBottom] = splitAtLastSpace(data.date);
-  const [videoReady, setVideoReady] = useState(false);
+  const [videoReady, setVideoReady] = useState(data.video.type !== 'local');
   const [minDelayDone, setMinDelayDone] = useState(false);
   const showLoader = !videoReady || !minDelayDone;
 

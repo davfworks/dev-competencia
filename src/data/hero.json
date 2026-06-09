@@ -4,7 +4,7 @@
   "logo": "/assets/images/logo.png",
   "slogan": "Desafía tus límites en los Rieles del Lago",
   "video": {
-    "type": "local",
-    "src": "/assets/video/hero-bg.mp4"
+    "type": "youtube",
+    "src": "https://www.youtube.com/embed/4C_YeSPKXPY"
   }
 }
