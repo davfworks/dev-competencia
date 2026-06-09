@@ -23,7 +23,7 @@ const Hero: React.FC = () => {
   const showLoader = !videoReady || !minDelayDone;
 
   useEffect(() => {
-    const t = setTimeout(() => setMinDelayDone(true), 3000);
+    const t = setTimeout(() => setMinDelayDone(true), 2000);
     return () => clearTimeout(t);
   }, []);
 
