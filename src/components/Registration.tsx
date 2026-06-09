@@ -9,22 +9,24 @@ import { PlusCircle, Trash2, User, Users, Upload, ArrowLeft, FileText } from 'lu
 
 const cfg = registrationData as RegistrationData;
 
+const dateRegex = /^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+const phoneRegex = /^\d{10}$/;
+
 const memberSchema = z.object({
   fullName: z.string().min(3, 'Nombre requerido'),
-  birthDate: z.string().min(1, 'Fecha requerida'),
+  birthDate: z.string().regex(dateRegex, 'Formato DD/MM/AAAA'),
   email: z.string().email('Email inválido'),
-  phone: z.string().min(7, 'Teléfono requerido'),
+  phone: z.string().regex(phoneRegex, 'Debe tener 10 dígitos'),
   gender: z.string().min(1, 'Género requerido'),
   jerseySize: z.string().min(1, 'Talla requerida'),
 });
 
 const individualSchema = z.object({
   fullName: z.string().min(3, 'Nombre requerido'),
-  birthDate: z.string().min(1, 'Fecha de nacimiento requerida'),
+  birthDate: z.string().regex(dateRegex, 'Formato DD/MM/AAAA'),
   email: z.string().email('Email inválido'),
-  phone: z.string().min(7, 'Teléfono requerido'),
+  phone: z.string().regex(phoneRegex, 'Debe tener 10 dígitos'),
   city: z.string().min(2, 'Ciudad requerida'),
-  country: z.string().min(2, 'País requerido'),
   gender: z.string().min(1, 'Seleccione un género'),
   jerseySize: z.string().min(1, 'Seleccione una talla'),
   observations: z.string().optional(),
@@ -299,7 +301,19 @@ function IndividualForm() {
         </div>
         <div>
           <label className={label}>Fecha de Nacimiento</label>
-          <input type="date" {...register('birthDate')} className={input} />
+          <input
+            {...register('birthDate')}
+            type="text"
+            className={input}
+            placeholder="DD/MM/AAAA"
+            maxLength={10}
+            onInput={(e) => {
+              let v = e.currentTarget.value.replace(/\D/g, '');
+              if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
+              if (v.length > 5) v = v.slice(0, 5) + '/' + v.slice(5);
+              e.currentTarget.value = v.slice(0, 10);
+            }}
+          />
           {errors.birthDate && <p className={err}>{errors.birthDate.message}</p>}
         </div>
         <div>
@@ -309,18 +323,13 @@ function IndividualForm() {
         </div>
         <div>
           <label className={label}>Teléfono</label>
-          <input {...register('phone')} className={input} placeholder="+593 99 999 9999" />
+          <input {...register('phone')} type="tel" className={input} placeholder="0999999999" maxLength={10} />
           {errors.phone && <p className={err}>{errors.phone.message}</p>}
         </div>
         <div>
           <label className={label}>Ciudad</label>
           <input {...register('city')} className={input} placeholder="Otavalo" />
           {errors.city && <p className={err}>{errors.city.message}</p>}
-        </div>
-        <div>
-          <label className={label}>País</label>
-          <input {...register('country')} className={input} placeholder="Ecuador" />
-          {errors.country && <p className={err}>{errors.country.message}</p>}
         </div>
         <div>
           <label className={label}>Género</label>
@@ -499,7 +508,19 @@ function TeamForm() {
                 </div>
                 <div>
                   <label className={label}>Fecha de Nacimiento</label>
-                  <input type="date" {...register(`members.${index}.birthDate`)} className={input} />
+                  <input
+                    {...register(`members.${index}.birthDate`)}
+                    type="text"
+                    className={input}
+                    placeholder="DD/MM/AAAA"
+                    maxLength={10}
+                    onInput={(e) => {
+                      let v = e.currentTarget.value.replace(/\D/g, '');
+                      if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
+                      if (v.length > 5) v = v.slice(0, 5) + '/' + v.slice(5);
+                      e.currentTarget.value = v.slice(0, 10);
+                    }}
+                  />
                   {errors.members?.[index]?.birthDate && (
                     <p className={err}>{errors.members[index]?.birthDate?.message}</p>
                   )}
@@ -513,7 +534,7 @@ function TeamForm() {
                 </div>
                 <div>
                   <label className={label}>Teléfono</label>
-                  <input {...register(`members.${index}.phone`)} className={input} placeholder="+593..." />
+                  <input {...register(`members.${index}.phone`)} type="tel" className={input} placeholder="0999999999" maxLength={10} />
                   {errors.members?.[index]?.phone && (
                     <p className={err}>{errors.members[index]?.phone?.message}</p>
                   )}
