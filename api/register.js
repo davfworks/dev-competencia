@@ -7,19 +7,23 @@ import { join } from 'path';
 // Desarrollo local: usa server/config.json como fallback
 function getConfig() {
   if (process.env.SMTP_HOST) {
+    const user = process.env.SMTP_USER;
     return {
       smtp: {
         host: process.env.SMTP_HOST,
         port: parseInt(process.env.SMTP_PORT || '587'),
         secure: process.env.SMTP_SECURE === 'true',
-        auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+        auth: { user, pass: process.env.SMTP_PASS },
       },
-      from: process.env.SMTP_FROM,
+      from: { name: 'Travesia Rieles del Lago 2026', address: user },
       organizerEmail: process.env.ORGANIZER_EMAIL,
     };
   }
   const localCfg = join(process.cwd(), 'server', 'config.json');
-  if (existsSync(localCfg)) return JSON.parse(readFileSync(localCfg, 'utf8'));
+  if (existsSync(localCfg)) {
+    const c = JSON.parse(readFileSync(localCfg, 'utf8'));
+    return { ...c, from: { name: 'Travesia Rieles del Lago 2026', address: c.smtp.auth.user } };
+  }
   throw new Error('No SMTP configuration found. Set environment variables or create server/config.json.');
 }
 

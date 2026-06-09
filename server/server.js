@@ -178,19 +178,21 @@ app.post('/api/register', async (req, res) => {
     : [];
 
   try {
+    const from = { name: 'Travesia Rieles del Lago 2026', address: cfg.smtp.auth.user };
+
     // Correo al participante
     await transporter.sendMail({
-      from: cfg.from,
+      from,
       to: data.email,
-      subject: `Confirmación de Inscripción ${data.confirmationCode} – Travesía Rieles del Lago 2026`,
+      subject: `Confirmacion de Inscripcion ${data.confirmationCode} - Travesia Rieles del Lago 2026`,
       html: participantHtml(data),
     });
 
     // Correo al organizador con comprobante adjunto
     await transporter.sendMail({
-      from: cfg.from,
+      from,
       to: cfg.organizerEmail,
-      subject: `Nueva Inscripción ${data.confirmationCode} – ${data.type === 'team' ? data.teamName : data.fullName}`,
+      subject: `Nueva Inscripcion ${data.confirmationCode} - ${data.type === 'team' ? data.teamName : data.fullName}`,
       html: organizerHtml(data),
       attachments,
     });
