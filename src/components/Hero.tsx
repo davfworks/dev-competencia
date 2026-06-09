@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { HeroData } from '../types';
 import heroData from '../data/hero.json';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -14,6 +14,13 @@ const Hero: React.FC = () => {
   const [editionTop, editionBottom] = splitAtLastSpace(data.edition);
   const [dateTop, dateBottom] = splitAtLastSpace(data.date);
   const [videoReady, setVideoReady] = useState(false);
+  const [minDelayDone, setMinDelayDone] = useState(false);
+  const showLoader = !videoReady || !minDelayDone;
+
+  useEffect(() => {
+    const t = setTimeout(() => setMinDelayDone(true), 3000);
+    return () => clearTimeout(t);
+  }, []);
 
   const renderBackground = () => {
     switch (data.video.type) {
@@ -40,7 +47,7 @@ const Hero: React.FC = () => {
         return (
           <>
             <AnimatePresence>
-              {!videoReady && (
+              {showLoader && (
                 <motion.div
                   key="loader"
                   exit={{ opacity: 0 }}
