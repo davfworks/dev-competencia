@@ -1,0 +1,12 @@
+{
+  "photos": {
+    "image": "https://s0.wklcdn.com/image_1/47018/4344791/2146227Master.jpg",
+    "description": "Revive los mejores momentos de la edición anterior.",
+    "galleryUrl": "#"
+  },
+  "shop": {
+    "image": "/assets/images/shop-preview.png",
+    "description": "Adquiere los artículos oficiales del evento.",
+    "shopUrl": "#"
+  }
+}

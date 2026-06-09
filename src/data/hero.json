@@ -1,0 +1,10 @@
+{
+  "edition": "PRIMERA EDICIÓN",
+  "date": "16 AGOSTO 2026",
+  "logo": "/assets/images/logo.png",
+  "slogan": "Desafía tus límites en los Rieles del Lago",
+  "video": {
+    "type": "local",
+    "src": "/assets/video/hero-bg.mp4"
+  }
+}

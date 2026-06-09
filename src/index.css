@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #512286;
+  --color-brand-light: #f3e8ff;
+  --color-accent: #96e0bf;
+  --font-sans: paralucent, sans-serif;
+}
+
+*, *::before, *::after {
+  font-family: paralucent, sans-serif !important;
+}

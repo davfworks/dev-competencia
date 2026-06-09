@@ -1,0 +1,8 @@
+{
+  "links": [
+    { "platform": "Instagram", "url": "https://instagram.com/rielesdellago", "icon": "instagram" },
+    { "platform": "Facebook", "url": "https://facebook.com/rielesdellago", "icon": "facebook" },
+    { "platform": "TikTok", "url": "https://tiktok.com/@rielesdellago", "icon": "tiktok" },
+    { "platform": "YouTube", "url": "https://youtube.com/@rielesdellago", "icon": "youtube" }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "title": "INSCRIPCIONES",
+  "description": "Forma parte de la aventura más grande del año.",
+  "minMembers": 2,
+  "maxMembers": 10,
+  "types": [
+    { "id": "individual", "name": "Individual", "price": 15 },
+    { "id": "team", "name": "Grupal", "price": 14 }
+  ],
+  "categories": ["Elite", "Master A", "Master B", "Junior", "Promocional"],
+  "sizes": ["S", "M", "L", "XL"],
+  "genders": ["Masculino", "Femenino", "Otro"],
+  "bank": {
+    "name": "Banco Pichincha",
+    "accountHolder": "NOMBRE DEL TITULAR",
+    "accountNumber": "XXXXXXXXXX",
+    "accountType": "Cuenta de Ahorros",
+    "identification": "XXXXXXXXXX",
+    "concept": "Inscripción Travesía Rieles del Lago 2026"
+  }
+}

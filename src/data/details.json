@@ -1,0 +1,10 @@
+{
+  "route": {
+    "image": "/assets/images/route-preview.png",
+    "mapUrl": "https://www.google.com/maps/d/u/0/edit?mid=1uCH2VEbmd76bWYvRRn33ST3oCJaICMo&usp=sharing"
+  },
+  "altimetry": {
+    "image": "/assets/images/altimetry-preview.png",
+    "resourceUrl": "/assets/docs/altimetria.pdf"
+  }
+}
