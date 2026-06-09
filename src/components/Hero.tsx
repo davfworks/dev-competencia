@@ -166,22 +166,14 @@ const Hero: React.FC = () => {
             className="flex-1 flex flex-col items-center justify-center text-center"
           >
             <img src={data.logo} alt="Logo" className="w-48 md:w-80 mb-3" />
-            <div className="flex flex-col items-center gap-2">
-              {data.slogan.split(' ').reduce<string[]>((acc, word, i) => {
-                if (i % 2 === 0) acc.push(word);
-                else acc[acc.length - 1] += ' ' + word;
-                return acc;
-              }, []).map((pair, i, arr) => (
+            <p className="text-lg md:text-2xl font-black italic tracking-[0.15em] uppercase text-center px-4">
+              {data.slogan.split(' ').map((word, i) => (
                 <React.Fragment key={i}>
-                  <span className="text-white text-lg md:text-2xl font-black italic tracking-[0.15em] uppercase">
-                    {pair}
-                  </span>
-                  {i < arr.length - 1 && (
-                    <div className="w-20 md:w-32 h-[2px] rounded-full" style={{ backgroundColor: '#96e0bf' }} />
-                  )}
+                  <span style={{ color: i % 2 === 1 ? '#96e0bf' : 'white' }}>{word}</span>
+                  {i < data.slogan.split(' ').length - 1 ? ' ' : ''}
                 </React.Fragment>
               ))}
-            </div>
+            </p>
           </motion.div>
         </div>
       </section>
