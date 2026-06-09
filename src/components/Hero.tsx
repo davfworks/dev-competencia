@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { HeroData } from '../types';
 import heroData from '../data/hero.json';
 import { motion } from 'framer-motion';
@@ -12,6 +12,7 @@ const Hero: React.FC = () => {
   const data = heroData as HeroData;
   const [editionTop, editionBottom] = splitAtLastSpace(data.edition);
   const [dateTop, dateBottom] = splitAtLastSpace(data.date);
+  const [videoReady, setVideoReady] = useState(false);
 
   const renderBackground = () => {
     switch (data.video.type) {
@@ -41,7 +42,10 @@ const Hero: React.FC = () => {
             muted
             loop
             playsInline
-            className="w-full h-full object-cover"
+            preload="auto"
+            onCanPlay={() => setVideoReady(true)}
+            className="w-full h-full object-cover transition-opacity duration-1000"
+            style={{ opacity: videoReady ? 1 : 0 }}
           >
             <source src={data.video.src} type="video/mp4" />
           </video>
