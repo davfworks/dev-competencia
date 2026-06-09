@@ -10,3 +10,7 @@
 *, *::before, *::after {
   font-family: paralucent, sans-serif !important;
 }
+
+.font-indie-flower {
+  font-family: 'Indie Flower', cursive !important;
+}
