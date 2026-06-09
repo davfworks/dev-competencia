@@ -9,6 +9,11 @@ function splitAtLastSpace(str: string): [string, string] {
   return idx === -1 ? [str, ''] : [str.slice(0, idx), str.slice(idx + 1)];
 }
 
+const topVariants    = { exit: { y: '-100%', transition: { duration: 0.9, ease: [0.76, 0, 0.24, 1] as const } } };
+const bottomVariants = { exit: { y:  '100%', transition: { duration: 0.9, ease: [0.76, 0, 0.24, 1] as const } } };
+const iconVariants   = { exit: { opacity: 0, scale: 0.7, transition: { duration: 0.25 } } };
+const wrapVariants   = { exit: { transition: { when: 'afterChildren' as const } } };
+
 const Hero: React.FC = () => {
   const data = heroData as HeroData;
   const [editionTop, editionBottom] = splitAtLastSpace(data.edition);
@@ -45,88 +50,106 @@ const Hero: React.FC = () => {
       case 'local':
       default:
         return (
-          <>
-            <AnimatePresence>
-              {showLoader && (
-                <motion.div
-                  key="loader"
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="absolute inset-0 z-10 bg-black flex flex-col items-center justify-center gap-4"
-                >
-                  <motion.div
-                    animate={{ x: [-8, 8, -8] }}
-                    transition={{ repeat: Infinity, duration: 0.7, ease: 'easeInOut' }}
-                  >
-                    <Bike size={56} className="text-accent" />
-                  </motion.div>
-                  <p className="text-white text-xs uppercase tracking-[0.3em] opacity-50">Cargando...</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              onCanPlayThrough={() => setVideoReady(true)}
-              className="w-full h-full object-cover"
-            >
-              <source src={data.video.src} type="video/mp4" />
-            </video>
-          </>
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            onCanPlayThrough={() => setVideoReady(true)}
+            className="w-full h-full object-cover"
+            style={{ transform: 'translateZ(0)', willChange: 'transform' }}
+          >
+            <source src={data.video.src} type="video/mp4" />
+          </video>
         );
     }
   };
 
   return (
-    <section id="home" className="relative h-screen w-full overflow-hidden flex items-center justify-center pt-20">
-      {/* Background Video */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-black/60 z-10" />
-        <div className="w-full h-full">
-          {renderBackground()}
-        </div>
-      </div>
-
-      {/* Content Overlay */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-6 h-full flex flex-col py-20">
-        <div className="w-full grid grid-cols-2 md:grid-cols-3 items-start">
+    <>
+      {/* ── Curtain loader ─────────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {showLoader && (
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="font-black tracking-[0.3em] leading-tight"
+            key="loader"
+            variants={wrapVariants}
+            exit="exit"
+            className="fixed inset-0 z-50 pointer-events-none"
           >
-            <div className="text-white text-sm md:text-3xl">{editionTop}</div>
-            <div className="text-accent text-sm md:text-3xl">{editionBottom}</div>
+            {/* Top half */}
+            <motion.div
+              variants={topVariants}
+              className="absolute inset-x-0 top-0 h-1/2 bg-purple-800"
+            />
+            {/* Bottom half */}
+            <motion.div
+              variants={bottomVariants}
+              className="absolute inset-x-0 bottom-0 h-1/2 bg-purple-800"
+            />
+            {/* Centered bike icon */}
+            <motion.div
+              variants={iconVariants}
+              className="absolute inset-0 flex flex-col items-center justify-center gap-5"
+            >
+              <motion.div
+                animate={{ x: [-12, 12, -12] }}
+                transition={{ repeat: Infinity, duration: 0.75, ease: 'easeInOut' }}
+              >
+                <Bike size={64} className="text-white drop-shadow-lg" />
+              </motion.div>
+              <p className="text-white text-xs uppercase tracking-[0.35em] opacity-60">Cargando...</p>
+            </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
 
-          <div className="hidden md:block" />
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="font-black tracking-[0.3em] leading-tight text-right"
-          >
-            <div className="text-white text-sm md:text-3xl">{dateTop}</div>
-            <div className="text-accent text-sm md:text-3xl">{dateBottom}</div>
-          </motion.div>
+      {/* ── Hero section ───────────────────────────────────────────────────── */}
+      <section id="home" className="relative h-screen w-full overflow-hidden flex items-center justify-center pt-20">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-black/60 z-10" />
+          <div className="w-full h-full">
+            {renderBackground()}
+          </div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="flex-1 flex flex-col items-center justify-center text-center"
-        >
-          <img src={data.logo} alt="Logo" className="w-48 md:w-80 mb-8" />
-          <p className="text-white text-lg md:text-2xl font-light tracking-[0.2em] uppercase max-w-2xl px-4">
-            {data.slogan}
-          </p>
-        </motion.div>
-      </div>
-    </section>
+        <div className="relative z-20 w-full max-w-7xl mx-auto px-6 h-full flex flex-col py-20">
+          <div className="w-full grid grid-cols-2 md:grid-cols-3 items-start">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="font-black tracking-[0.3em] leading-tight"
+            >
+              <div className="text-white text-sm md:text-3xl">{editionTop}</div>
+              <div className="text-accent text-sm md:text-3xl">{editionBottom}</div>
+            </motion.div>
+
+            <div className="hidden md:block" />
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="font-black tracking-[0.3em] leading-tight text-right"
+            >
+              <div className="text-white text-sm md:text-3xl">{dateTop}</div>
+              <div className="text-accent text-sm md:text-3xl">{dateBottom}</div>
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex-1 flex flex-col items-center justify-center text-center"
+          >
+            <img src={data.logo} alt="Logo" className="w-48 md:w-80 mb-8" />
+            <p className="text-white text-lg md:text-2xl font-light tracking-[0.2em] uppercase max-w-2xl px-4">
+              {data.slogan}
+            </p>
+          </motion.div>
+        </div>
+      </section>
+    </>
   );
 };
 
