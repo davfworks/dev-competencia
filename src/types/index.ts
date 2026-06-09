@@ -14,6 +14,7 @@ export interface CountdownData {
   slogan: string;
   location: string;
   date: string;
+  distance: string;
   targetDate: string;
   cta: string;
 }
