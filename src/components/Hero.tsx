@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import type { HeroData } from '../types';
 import heroData from '../data/hero.json';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Bike } from 'lucide-react';
 
 function splitAtLastSpace(str: string): [string, string] {
   const idx = str.lastIndexOf(' ');
@@ -37,18 +38,37 @@ const Hero: React.FC = () => {
       case 'local':
       default:
         return (
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            onCanPlay={() => setVideoReady(true)}
-            className="w-full h-full object-cover transition-opacity duration-1000"
-            style={{ opacity: videoReady ? 1 : 0 }}
-          >
-            <source src={data.video.src} type="video/mp4" />
-          </video>
+          <>
+            <AnimatePresence>
+              {!videoReady && (
+                <motion.div
+                  key="loader"
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="absolute inset-0 z-10 bg-black flex flex-col items-center justify-center gap-4"
+                >
+                  <motion.div
+                    animate={{ x: [-8, 8, -8] }}
+                    transition={{ repeat: Infinity, duration: 0.7, ease: 'easeInOut' }}
+                  >
+                    <Bike size={56} className="text-accent" />
+                  </motion.div>
+                  <p className="text-white text-xs uppercase tracking-[0.3em] opacity-50">Cargando...</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              onCanPlayThrough={() => setVideoReady(true)}
+              className="w-full h-full object-cover"
+            >
+              <source src={data.video.src} type="video/mp4" />
+            </video>
+          </>
         );
     }
   };
