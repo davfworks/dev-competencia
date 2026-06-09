@@ -166,7 +166,7 @@ const Hero: React.FC = () => {
             className="flex-1 flex flex-col items-center justify-center text-center"
           >
             <img src={data.logo} alt="Logo" className="w-48 md:w-80 mb-3" />
-            <p className="font-indie-flower text-xl md:text-3xl text-center px-4">
+            <p className="font-indie-flower italic text-xl md:text-3xl text-center px-4">
               {data.slogan.split(' ').map((word, i) => (
                 <React.Fragment key={i}>
                   <span style={{ color: i % 2 === 1 ? '#96e0bf' : 'white' }}>{word}</span>
