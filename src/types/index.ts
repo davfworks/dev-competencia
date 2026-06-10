@@ -1,5 +1,5 @@
 export interface HeroData {
-  edition: string;
+  edition: string[];
   date: string;
   logo: string;
   slogan: string;

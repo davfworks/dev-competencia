@@ -16,14 +16,13 @@ const wrapVariants   = { exit: { transition: { when: 'afterChildren' as const } 
 
 const Hero: React.FC = () => {
   const data = heroData as HeroData;
-  const [editionTop, editionBottom] = splitAtLastSpace(data.edition);
   const [dateTop, dateBottom] = splitAtLastSpace(data.date);
   const [videoReady, setVideoReady] = useState(data.video.type !== 'local');
   const [minDelayDone, setMinDelayDone] = useState(false);
   const showLoader = !videoReady || !minDelayDone;
 
   useEffect(() => {
-    const t = setTimeout(() => setMinDelayDone(true), 2000);
+    const t = setTimeout(() => setMinDelayDone(true), 1000);
     return () => clearTimeout(t);
   }, []);
 
@@ -103,12 +102,12 @@ const Hero: React.FC = () => {
             {/* Top half */}
             <motion.div
               variants={topVariants}
-              className="absolute inset-x-0 top-0 h-1/2 bg-purple-800"
+              className="absolute inset-x-0 top-0 h-1/2 bg-brand"
             />
             {/* Bottom half */}
             <motion.div
               variants={bottomVariants}
-              className="absolute inset-x-0 bottom-0 h-1/2 bg-purple-800"
+              className="absolute inset-x-0 bottom-0 h-1/2 bg-brand"
             />
             {/* Centered bike icon */}
             <motion.div
@@ -121,7 +120,7 @@ const Hero: React.FC = () => {
               >
                 <Bike size={64} className="text-white drop-shadow-lg" />
               </motion.div>
-              <p className="text-white text-xs uppercase tracking-[0.35em] opacity-60">Cargando...</p>
+              <p className="text-white text-xs uppercase tracking-[0.35em] opacity-60">Vamos a pedalear...</p>
             </motion.div>
           </motion.div>
         )}
@@ -143,8 +142,14 @@ const Hero: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               className="font-black tracking-[0.3em] leading-tight"
             >
-              <div className="text-white text-sm md:text-3xl">{editionTop}</div>
-              <div className="text-accent text-sm md:text-3xl">{editionBottom}</div>
+              {data.edition.map((line, i) => (
+                <div
+                  key={i}
+                  className={`text-sm md:text-3xl ${i % 2 === 0 ? 'text-white' : 'text-accent'}`}
+                >
+                  {line}
+                </div>
+              ))}
             </motion.div>
 
             <div className="hidden md:block" />
@@ -166,7 +171,7 @@ const Hero: React.FC = () => {
             className="flex-1 flex flex-col items-center justify-center text-center"
           >
             <img src={data.logo} alt="Logo" className="w-48 md:w-80 mb-3" />
-            <p className="font-indie-flower italic text-xl md:text-3xl text-center px-4">
+            <p className="font-indie-flower text-2xl md:text-4xl text-center px-4">
               {data.slogan.split(' ').map((word, i) => (
                 <React.Fragment key={i}>
                   <span style={{ color: i % 2 === 1 ? '#96e0bf' : 'white' }}>{word}</span>

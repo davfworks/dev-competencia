@@ -1,8 +1,8 @@
 {
-  "edition": "PRIMERA EDICIÓN",
+  "edition": ["CICLO RUTA", "PRIMERA", "EDICIÓN"],
   "date": "16 AGOSTO 2026",
   "logo": "/assets/images/logo.png",
-  "slogan": "Pedalea, siente, vive la aventura",
+  "slogan": "Pedalea, siente y vive la aventura",
   "video": {
     "type": "youtube",
     "src": "https://www.youtube.com/embed/4C_YeSPKXPY"

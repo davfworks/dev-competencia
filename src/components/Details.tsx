@@ -3,8 +3,8 @@ import type { DetailsData } from '../types';
 import detailsData from '../data/details.json';
 import { MapPin, TrendingUp } from 'lucide-react';
 
-const overlayColor = 'rgba(81, 34, 134, 0.55)';
-const overlayHover  = 'rgba(81, 34, 134, 0.75)';
+const overlayColor = 'color-mix(in srgb, var(--color-brand) 55%, transparent)';
+const overlayHover  = 'color-mix(in srgb, var(--color-brand) 75%, transparent)';
 
 const Details: React.FC = () => {
   const data = detailsData as DetailsData;

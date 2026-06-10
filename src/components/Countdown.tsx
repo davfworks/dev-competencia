@@ -101,7 +101,7 @@ const Countdown: React.FC = () => {
               {data.title}
             </h2>
             <motion.a
-              whileHover={{ scale: 1.05, backgroundColor: '#ffffff', color: '#512286' }}
+              whileHover={{ scale: 1.05, backgroundColor: '#ffffff', color: 'var(--color-brand)' }}
               whileTap={{ scale: 0.95 }}
               href="#registration"
               className="inline-block bg-accent text-white px-10 py-4 font-black tracking-[0.2em] uppercase transition-all shadow-xl"

@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
       <nav
         className={cn(
           'fixed top-0 left-0 right-0 z-[60] transition-colors duration-300 px-6 py-4',
-          isScrolled ? 'bg-[#512286]/95 backdrop-blur-md shadow-lg' : 'bg-black/30'
+          isScrolled ? 'bg-brand/95 backdrop-blur-md shadow-lg' : 'bg-black/30'
         )}
       >
         <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -79,7 +79,7 @@ const Navbar: React.FC = () => {
           'fixed inset-0 z-[70] md:hidden flex flex-col items-center justify-center space-y-8 transition-transform duration-500',
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
         )}
-        style={{ backgroundColor: '#512286' }}
+        style={{ backgroundColor: 'var(--color-brand)' }}
       >
         <button
           className="absolute top-6 left-6 text-white"

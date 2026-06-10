@@ -43,7 +43,7 @@ All website copy lives in JSON files under `src/data/`. Components read from the
 ### Colors & theme
 
 Defined in `src/index.css` via Tailwind v4 `@theme`:
-- `--color-brand: #512286` (purple)
+- `--color-brand: #0B787F` (teal)
 - `--color-brand-light: #f3e8ff`
 - `--color-accent: #96e0bf` (mint green)
 

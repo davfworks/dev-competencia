@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand: #512286;
+  --color-brand: #071A1B;
   --color-brand-light: #f3e8ff;
   --color-accent: #96e0bf;
   --font-sans: paralucent, sans-serif;
@@ -12,5 +12,6 @@
 }
 
 .font-indie-flower {
-  font-family: 'Indie Flower', cursive !important;
+  font-family: 'Dancing Script', cursive !important;
+  font-weight: 700 !important;
 }
