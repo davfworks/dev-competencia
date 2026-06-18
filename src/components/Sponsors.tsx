@@ -28,7 +28,7 @@ const Sponsors: React.FC = () => {
                       src={logo.image}
                       alt={logo.name}
                       loading="lazy"
-                      className="h-16 w-32 object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300"
+                      className="h-24 w-48 object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300"
                     />
                   ))}
                 </div>
