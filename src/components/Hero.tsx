@@ -33,7 +33,7 @@ const Hero: React.FC = () => {
         return (
           <iframe
             src={`${data.video.src}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
-            allow="autoplay; fullscreen"
+            allow="autoplay; encrypted-media; fullscreen"
             allowFullScreen
             style={{
               position: 'absolute',
@@ -170,7 +170,7 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="flex-1 flex flex-col items-center justify-center text-center"
           >
-            <img src={data.logo} alt="Logo" className="w-48 md:w-80 mb-3" />
+            <img src={data.logo} alt="Logo" className="w-48 md:w-80 mb-3" fetchPriority="high" decoding="sync" />
             <p className="font-indie-flower text-2xl md:text-4xl text-center px-4">
               {data.slogan.split(' ').map((word, i) => (
                 <React.Fragment key={i}>

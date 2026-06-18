@@ -23,6 +23,7 @@ const Articles: React.FC = () => {
           src={data.photos.image}
           alt="Fotografías oficiales"
           loading="lazy"
+          decoding="async"
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
         <div
@@ -56,6 +57,7 @@ const Articles: React.FC = () => {
           src={data.shop.image}
           alt="Artículos oficiales"
           loading="lazy"
+          decoding="async"
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
         <div
