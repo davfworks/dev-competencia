@@ -8,6 +8,6 @@
     { "name": "Sponsor 2", "image": "https://www.silaepic.com/uploads/1/0/6/8/10685380/sponsor-tile-2023-tavola-disegno-1-copia-10.png" }
   ],
   "allies": [
-    { "name": "Aliado 1", "image": "https://www.silaepic.com/uploads/1/0/6/8/10685380/patata-sila-ok-tavola-disegno-1_orig.png" }
+    { "name": "Aliado 1", "image": "/assets/images/aliado1.webp" }
   ]
 }
