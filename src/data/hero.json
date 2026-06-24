@@ -4,7 +4,7 @@
   "logo": "/assets/images/logo.webp",
   "slogan": "Pedalea, siente y vive la aventura",
   "video": {
-    "type": "youtube",
-    "src": "https://www.youtube.com/embed/4C_YeSPKXPY"
+    "type": "local",
+    "src": "/assets/images/rielesLago.mp4"
   }
 }
