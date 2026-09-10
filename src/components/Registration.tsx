@@ -281,9 +281,9 @@ function IndividualForm() {
   if (step === 'payment') return (
     <PaymentStep
       code={code}
-      total={15}
+      total={10}
       count={1}
-      unitPrice={15}
+      unitPrice={10}
       onConfirm={onPaymentConfirm}
       onBack={() => setStep('form')}
       submitting={submitting}
@@ -378,7 +378,7 @@ function IndividualForm() {
           <p className="text-sm text-zinc-600 mt-0.5">1 participante</p>
         </div>
         <div className="text-right">
-          <p className="text-3xl font-black text-accent">$15</p>
+          <p className="text-3xl font-black text-accent">$10</p>
           <p className="text-xs uppercase tracking-widest text-zinc-500">Total</p>
         </div>
       </div>
@@ -434,9 +434,9 @@ function TeamForm() {
   if (step === 'payment') return (
     <PaymentStep
       code={code}
-      total={savedData ? savedData.members.length * 14 : fields.length * 14}
+      total={savedData ? savedData.members.length * 9 : fields.length * 9}
       count={savedData ? savedData.members.length : fields.length}
-      unitPrice={14}
+      unitPrice={9}
       onConfirm={onPaymentConfirm}
       onBack={() => setStep('form')}
       submitting={submitting}
@@ -599,7 +599,7 @@ function TeamForm() {
           <p className="text-sm text-zinc-600 mt-0.5">{fields.length} integrante{fields.length !== 1 ? 's' : ''} × $14</p>
         </div>
         <div className="text-right">
-          <p className="text-3xl font-black text-accent">${fields.length * 14}</p>
+          <p className="text-3xl font-black text-accent">${fields.length * 9}</p>
           <p className="text-xs uppercase tracking-widest text-zinc-500">Total</p>
         </div>
       </div>
