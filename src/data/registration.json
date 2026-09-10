@@ -4,8 +4,8 @@
   "minMembers": 2,
   "maxMembers": 10,
   "types": [
-    { "id": "individual", "name": "Individual", "price": 15 },
-    { "id": "team", "name": "Grupal", "price": 14 }
+    { "id": "individual", "name": "Individual", "price": 10 },
+    { "id": "team", "name": "Grupal", "price": 9 }
   ],
   "categories": ["Elite", "Master A", "Master B", "Junior", "Promocional"],
   "sizes": ["S", "M", "L", "XL"],
