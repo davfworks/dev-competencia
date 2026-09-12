@@ -12,10 +12,10 @@
   "genders": ["Masculino", "Femenino", "Otro"],
   "bank": {
     "name": "Banco Pichincha",
-    "accountHolder": "NOMBRE DEL TITULAR",
-    "accountNumber": "XXXXXXXXXX",
+    "accountHolder": "Elizabeth Sanchez",
+    "accountNumber": "2214604276",
     "accountType": "Cuenta de Ahorros",
-    "identification": "XXXXXXXXXX",
+    "identification": "1725220147",
     "concept": "Inscripción Travesía Rieles del Lago 2026"
   }
 }
