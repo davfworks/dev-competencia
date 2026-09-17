@@ -135,7 +135,7 @@ function organizerHtml(data) {
   const now = new Date().toLocaleString('es-EC', { timeZone: 'America/Guayaquil' });
   const tipo = data.type === 'team' ? 'Grupal' : 'Individual';
   const nombre = data.type === 'team' ? `${data.teamName} (rep: ${data.representativeName})` : data.fullName;
-  const total = data.type === 'team' ? `$${(data.members?.length || 0) * 14}` : '$15';
+  const total = data.type === 'team' ? `$${(data.members?.length || 0) * 9}` : '$10';
 
   return `
     <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;color:#111">
