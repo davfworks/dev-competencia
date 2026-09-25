@@ -434,9 +434,9 @@ function TeamForm() {
   if (step === 'payment') return (
     <PaymentStep
       code={code}
-      total={savedData ? savedData.members.length * 9 : fields.length * 9}
+      total={savedData ? savedData.members.length * 10 : fields.length * 10}
       count={savedData ? savedData.members.length : fields.length}
-      unitPrice={9}
+      unitPrice={10}
       onConfirm={onPaymentConfirm}
       onBack={() => setStep('form')}
       submitting={submitting}
@@ -596,10 +596,10 @@ function TeamForm() {
       <div className="bg-zinc-100 border-l-4 border-brand p-5 flex items-center justify-between">
         <div>
           <p className="text-xs uppercase font-bold tracking-widest text-zinc-500">Inscripción Grupal</p>
-          <p className="text-sm text-zinc-600 mt-0.5">{fields.length} integrante{fields.length !== 1 ? 's' : ''} × $14</p>
+          <p className="text-sm text-zinc-600 mt-0.5">{fields.length} integrante{fields.length !== 1 ? 's' : ''} × $10</p>
         </div>
         <div className="text-right">
-          <p className="text-3xl font-black text-accent">${fields.length * 9}</p>
+          <p className="text-3xl font-black text-accent">${fields.length * 10}</p>
           <p className="text-xs uppercase tracking-widest text-zinc-500">Total</p>
         </div>
       </div>
