@@ -179,6 +179,13 @@ const Hero: React.FC = () => {
                 </React.Fragment>
               ))}
             </p>
+
+            <a
+              href="#registration"
+              className="md:hidden mt-6 bg-accent text-white font-black uppercase italic tracking-widest text-sm px-10 py-3 rounded-full shadow-lg hover:bg-brand transition-colors"
+            >
+              Inscribirme Ahora
+            </a>
           </motion.div>
         </div>
       </section>

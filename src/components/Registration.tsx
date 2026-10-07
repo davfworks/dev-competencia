@@ -1,11 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import type { RegistrationData } from '../types';
 import registrationData from '../data/registration.json';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PlusCircle, Trash2, User, Users, Upload, ArrowLeft, FileText } from 'lucide-react';
+import { PlusCircle, Trash2, User, Users, Upload, ArrowLeft, FileText, Landmark } from 'lucide-react';
 
 const cfg = registrationData as RegistrationData;
 
@@ -70,16 +70,91 @@ async function postRegistration(payload: object) {
   if (!res.ok) throw new Error('server_error');
 }
 
+// ── Step indicator ────────────────────────────────────────────────────────────
+const STEP_LABELS = ['Datos', 'Pago', 'Confirmación'];
+
+function StepIndicator({ step }: { step: Step }) {
+  const activeIndex = step === 'form' ? 0 : step === 'payment' ? 1 : 2;
+  return (
+    <div className="flex items-center justify-center gap-1.5 md:gap-4 mb-8 md:mb-10">
+      {STEP_LABELS.map((label, i) => (
+        <React.Fragment key={label}>
+          <div className="flex flex-col items-center gap-2">
+            <div
+              className={`w-9 h-9 md:w-11 md:h-11 rounded-full flex items-center justify-center font-black text-sm md:text-base border-2 transition-colors ${
+                i < activeIndex
+                  ? 'bg-brand border-brand text-white'
+                  : i === activeIndex
+                  ? 'bg-accent border-accent text-white'
+                  : 'bg-white border-zinc-300 text-zinc-400'
+              }`}
+            >
+              {i < activeIndex ? '✓' : i + 1}
+            </div>
+            <span className={`text-[9px] md:text-xs uppercase tracking-widest font-bold whitespace-nowrap ${i === activeIndex ? 'text-black' : 'text-zinc-400'}`}>
+              {label}
+            </span>
+          </div>
+          {i < STEP_LABELS.length - 1 && (
+            <div className={`w-6 md:w-16 h-0.5 mb-5 transition-colors ${i < activeIndex ? 'bg-brand' : 'bg-zinc-200'}`} />
+          )}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
 // ── Success banner ────────────────────────────────────────────────────────────
 function SuccessBanner({ code }: { code: string }) {
   return (
     <div className="text-center py-16 bg-zinc-50 p-8">
+      <StepIndicator step="success" />
       <div className="text-5xl mb-4 text-brand">✓</div>
       <h3 className="text-2xl font-black uppercase italic text-accent mb-2">¡Inscripción confirmada!</h3>
       <p className="text-zinc-600 mb-8">Revisa tu correo electrónico para los detalles.</p>
       <div className="inline-block bg-black text-white px-8 py-5">
         <p className="text-xs uppercase tracking-widest text-zinc-400 mb-2">Código de confirmación</p>
         <p className="text-3xl font-black tracking-[0.2em] font-mono">{code}</p>
+      </div>
+    </div>
+  );
+}
+
+// ── Bank details ──────────────────────────────────────────────────────────────
+function BankDetailsCard({ unitPrice }: { unitPrice: number }) {
+  const bankRows: { label: string; value: string; mono?: boolean }[] = [
+    { label: 'Banco', value: cfg.bank.name },
+    { label: 'Tipo de cuenta', value: cfg.bank.accountType },
+    { label: 'N° de cuenta', value: cfg.bank.accountNumber, mono: true },
+    { label: 'Titular', value: cfg.bank.accountHolder },
+    { label: 'Identificación', value: cfg.bank.identification, mono: true },
+    { label: 'Concepto', value: cfg.bank.concept },
+  ];
+
+  return (
+    <div className="relative overflow-hidden rounded-2xl border-2 p-5 md:p-6 shadow-xl bg-white" style={{ borderColor: '#96e0bf' }}>
+      <div className="flex items-center gap-2 mb-4 flex-wrap">
+        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-accent/20 text-brand flex-shrink-0">
+          <Landmark size={18} />
+        </span>
+        <h4 className="text-sm md:text-base font-black uppercase tracking-widest text-brand">
+          Datos para Transferencia
+        </h4>
+        <span className="text-zinc-300 font-black">|</span>
+        <span className="text-lg md:text-xl font-black text-accent">${unitPrice.toFixed(2)}</span>
+        <span className="text-[10px] md:text-xs uppercase tracking-widest text-zinc-500">(Valor Individual)</span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-zinc-50 p-4 rounded-xl border border-brand/20 text-xs sm:text-sm text-zinc-700">
+          {bankRows.map(({ label, value, mono }) => (
+            <div key={label}>
+              <strong className="text-zinc-900">{label}:</strong>{' '}
+              {mono ? (
+                <span className="font-mono bg-white px-1.5 py-0.5 rounded text-brand font-bold break-all border border-zinc-200">{value}</span>
+              ) : (
+                value
+              )}
+            </div>
+          ))}
       </div>
     </div>
   );
@@ -125,15 +200,6 @@ function PaymentStep({
     onConfirm(fileData.dataUrl);
   };
 
-  const bankRows: [string, string][] = [
-    ['Banco', cfg.bank.name],
-    ['Tipo de cuenta', cfg.bank.accountType],
-    ['N° de cuenta', cfg.bank.accountNumber],
-    ['Titular', cfg.bank.accountHolder],
-    ['Identificación', cfg.bank.identification],
-    ['Concepto', cfg.bank.concept],
-  ];
-
   return (
     <motion.div
       initial={{ opacity: 0, x: 30 }}
@@ -145,17 +211,18 @@ function PaymentStep({
       {/* Header */}
       <div className="flex items-center gap-3">
         <button
+          type="button"
           onClick={onBack}
-          className="text-zinc-400 hover:text-black transition-colors flex-shrink-0"
+          className="relative z-10 flex items-center gap-1 text-zinc-500 hover:text-brand transition-colors flex-shrink-0 font-bold text-sm uppercase tracking-widest cursor-pointer"
           aria-label="Volver al formulario"
         >
-          <ArrowLeft size={22} />
+          <ArrowLeft size={20} />
+          Volver
         </button>
-        <div>
-          <p className="text-xs uppercase tracking-widest text-zinc-500">Paso 2 de 2</p>
-          <h3 className="text-xl font-black uppercase italic tracking-widest">Pago y Confirmación</h3>
-        </div>
+        <h3 className="text-xl font-black uppercase italic tracking-widest">Pago y Confirmación</h3>
       </div>
+
+      <StepIndicator step="payment" />
 
       {/* Confirmation code */}
       <div className="bg-black text-white p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -164,21 +231,6 @@ function PaymentStep({
           <p className="text-2xl font-black tracking-[0.2em] font-mono">{code}</p>
         </div>
         <p className="text-xs text-zinc-400 sm:text-right">Lo recibirás también<br />por correo electrónico.</p>
-      </div>
-
-      {/* Bank details */}
-      <div>
-        <h4 className="text-sm font-black uppercase tracking-widest mb-4 pb-2 border-b-2 border-brand">
-          Datos para Transferencia
-        </h4>
-        <div className="grid grid-cols-2 sm:grid-cols-2 gap-2 md:gap-3">
-          {bankRows.map(([k, v]) => (
-            <div key={k} className="bg-white p-2 md:p-3 border-l-2 border-zinc-200">
-              <p className="text-[9px] md:text-xs uppercase tracking-widest text-zinc-400">{k}</p>
-              <p className="text-xs md:text-sm font-bold text-zinc-800 break-all">{v}</p>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Total */}
@@ -293,6 +345,8 @@ function IndividualForm() {
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-6 bg-zinc-50 p-8 md:p-12 shadow-2xl">
+      <StepIndicator step="form" />
+      <BankDetailsCard unitPrice={10} />
       <div className="grid md:grid-cols-2 gap-6">
         <div>
           <label className={label}>Nombres y Apellidos</label>
@@ -340,7 +394,7 @@ function IndividualForm() {
           {errors.gender && <p className={err}>{errors.gender.message}</p>}
         </div>
         <div>
-          <label className={label}>Talla de Jersey</label>
+          <label className={label}>Talla de Camiseta</label>
           <select {...register('jerseySize')} className={`${input} bg-white`}>
             <option value="">Seleccione...</option>
             {cfg.sizes.map(s => <option key={s} value={s}>{s}</option>)}
@@ -387,7 +441,7 @@ function IndividualForm() {
         type="submit"
         className="w-full bg-accent text-white font-black uppercase italic tracking-widest py-6 hover:bg-brand transition-all"
       >
-        Continuar al Pago →
+        Continuar para subir el pago →
       </button>
     </form>
   );
@@ -446,6 +500,8 @@ function TeamForm() {
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-10 bg-zinc-50 p-8 md:p-12 shadow-2xl">
+      <StepIndicator step="form" />
+      <BankDetailsCard unitPrice={10} />
       {/* Team info */}
       <div>
         <h3 className="text-lg font-black uppercase italic tracking-widest mb-6 pb-2 border-b-2 border-brand">
@@ -550,7 +606,7 @@ function TeamForm() {
                   )}
                 </div>
                 <div>
-                  <label className={label}>Talla de Jersey</label>
+                  <label className={label}>Talla de Camiseta</label>
                   <select {...register(`members.${index}.jerseySize`)} className={`${input} bg-white`}>
                     <option value="">Seleccione...</option>
                     {cfg.sizes.map(s => <option key={s} value={s}>{s}</option>)}
@@ -608,7 +664,7 @@ function TeamForm() {
         type="submit"
         className="w-full bg-accent text-white font-black uppercase italic tracking-widest py-6 hover:bg-brand transition-all"
       >
-        Continuar al Pago →
+        Continuar para subir el pago →
       </button>
     </form>
   );
@@ -617,6 +673,13 @@ function TeamForm() {
 // ── Main Section ──────────────────────────────────────────────────────────────
 const Registration: React.FC = () => {
   const [selectedType, setSelectedType] = useState<'individual' | 'team' | null>(null);
+  const formSectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (selectedType) {
+      formSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [selectedType]);
 
   return (
     <section id="registration" className="py-24 bg-white px-6">
@@ -655,6 +718,8 @@ const Registration: React.FC = () => {
           {selectedType && (
             <motion.div
               key={selectedType}
+              ref={formSectionRef}
+              style={{ scrollMarginTop: '96px' }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { CountdownData } from '../types';
 import countdownData from '../data/countdown.json';
 import { motion } from 'framer-motion';
-import { MapPin, Calendar, Route } from 'lucide-react';
+import { MapPin, Calendar, Route, DollarSign } from 'lucide-react';
 
 const Countdown: React.FC = () => {
   const data = countdownData as CountdownData;
@@ -61,6 +61,9 @@ const Countdown: React.FC = () => {
             <span className="text-white/40 font-light">|</span>
             <Route size={16} className="text-accent shrink-0" />
             <span className="text-white font-bold text-sm uppercase tracking-wide">{data.distance}</span>
+            <span className="text-white/40 font-light">|</span>
+            <DollarSign size={16} className="text-accent shrink-0" />
+            <span className="text-white font-bold text-sm uppercase tracking-wide">$10</span>
           </div>
 
           {/* 4. Timer */}
@@ -92,6 +95,10 @@ const Countdown: React.FC = () => {
             <div className="flex items-center gap-3">
               <Route size={24} className="text-accent shrink-0" />
               <p className="text-white font-black text-xl uppercase tracking-wide">{data.distance}</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <DollarSign size={24} className="text-accent shrink-0" />
+              <p className="text-white font-black text-xl uppercase tracking-wide">$10</p>
             </div>
           </div>
 
