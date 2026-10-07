@@ -182,7 +182,7 @@ const Hero: React.FC = () => {
 
             <a
               href="#registration"
-              className="md:hidden mt-6 bg-accent text-white font-black uppercase italic tracking-widest text-sm px-10 py-3 rounded-full shadow-lg hover:bg-brand transition-colors"
+              className="md:hidden mt-6 bg-[#f4d35e] text-brand font-black uppercase tracking-[0.2em] px-10 py-3 rounded-full shadow-lg hover:bg-white transition-colors"
             >
               Inscribirme Ahora
             </a>
