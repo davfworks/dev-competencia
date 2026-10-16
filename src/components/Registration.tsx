@@ -51,6 +51,18 @@ type Step = 'form' | 'payment' | 'success';
 const input = 'w-full p-4 border-2 border-zinc-200 focus:border-brand outline-none transition-colors';
 const label = 'block text-xs uppercase font-bold tracking-widest text-zinc-500 mb-1';
 const err = 'text-red-500 text-xs font-bold uppercase mt-1';
+const primaryBtn = 'w-full rounded-xl bg-brand text-white font-black uppercase italic tracking-widest py-5 px-6 shadow-lg shadow-brand/30 border-b-4 border-black/25 hover:brightness-110 hover:shadow-xl active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer disabled:bg-zinc-400 disabled:shadow-none disabled:cursor-not-allowed';
+const secondaryBtn = 'inline-flex items-center gap-2 rounded-lg border-2 border-brand text-brand bg-white font-bold uppercase text-sm tracking-widest py-2.5 px-4 shadow-sm hover:bg-brand hover:text-white active:scale-95 transition-all cursor-pointer';
+
+// Al cambiar de paso el contenido cambia de altura y en móvil el usuario queda en otra sección.
+// Volvemos al inicio del formulario en cada cambio de paso.
+function useScrollToFormOnStep(step: Step) {
+  const isFirst = useRef(true);
+  useEffect(() => {
+    if (isFirst.current) { isFirst.current = false; return; }
+    document.getElementById('registration-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [step]);
+}
 
 function generateCode(): string {
   const L = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -213,10 +225,10 @@ function PaymentStep({
         <button
           type="button"
           onClick={onBack}
-          className="relative z-10 flex items-center gap-1 text-zinc-500 hover:text-brand transition-colors flex-shrink-0 font-bold text-sm uppercase tracking-widest cursor-pointer"
+          className={`relative z-10 flex-shrink-0 ${secondaryBtn}`}
           aria-label="Volver al formulario"
         >
-          <ArrowLeft size={20} />
+          <ArrowLeft size={18} />
           Volver
         </button>
         <h3 className="text-xl font-black uppercase italic tracking-widest">Pago y Confirmación</h3>
@@ -287,9 +299,10 @@ function PaymentStep({
       {serverError && <p className="text-red-500 text-sm font-bold text-center">{serverError}</p>}
 
       <button
+        type="button"
         onClick={handleConfirm}
         disabled={submitting}
-        className="w-full bg-accent text-white font-black uppercase italic tracking-widest py-6 hover:bg-brand transition-all disabled:bg-zinc-400"
+        className={primaryBtn}
       >
         {submitting ? 'Procesando...' : 'Confirmar Inscripción'}
       </button>
@@ -304,6 +317,7 @@ function IndividualForm() {
   const [savedData, setSavedData] = useState<IndividualFormData | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState('');
+  useScrollToFormOnStep(step);
 
   const { register, handleSubmit, formState: { errors } } = useForm<IndividualFormData>({
     resolver: zodResolver(individualSchema),
@@ -439,7 +453,7 @@ function IndividualForm() {
 
       <button
         type="submit"
-        className="w-full bg-accent text-white font-black uppercase italic tracking-widest py-6 hover:bg-brand transition-all"
+        className={primaryBtn}
       >
         Continuar para subir el pago →
       </button>
@@ -454,6 +468,7 @@ function TeamForm() {
   const [savedData, setSavedData] = useState<TeamFormData | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState('');
+  useScrollToFormOnStep(step);
 
   const { register, handleSubmit, control, formState: { errors } } = useForm<TeamFormData>({
     resolver: zodResolver(teamSchema),
@@ -624,7 +639,7 @@ function TeamForm() {
           <button
             type="button"
             onClick={() => append({ fullName: '', birthDate: '', email: '', phone: '', gender: '', jerseySize: '' })}
-            className="mt-4 flex items-center gap-2 text-accent font-bold uppercase text-sm hover:text-black transition-colors"
+            className={`mt-4 ${secondaryBtn}`}
           >
             <PlusCircle size={20} />
             Agregar Integrante
@@ -662,7 +677,7 @@ function TeamForm() {
 
       <button
         type="submit"
-        className="w-full bg-accent text-white font-black uppercase italic tracking-widest py-6 hover:bg-brand transition-all"
+        className={primaryBtn}
       >
         Continuar para subir el pago →
       </button>
@@ -692,7 +707,7 @@ const Registration: React.FC = () => {
         <div className="grid grid-cols-2 gap-3 md:gap-6 mb-12">
           <button
             onClick={() => setSelectedType('individual')}
-            className={`p-4 md:p-8 border-2 flex flex-col items-center gap-2 md:gap-4 transition-all ${
+            className={`p-4 md:p-8 border-2 rounded-xl shadow-md hover:shadow-lg active:scale-95 cursor-pointer flex flex-col items-center gap-2 md:gap-4 transition-all ${
               selectedType === 'individual'
                 ? 'border-brand bg-brand-light'
                 : 'border-zinc-200 hover:border-orange-300'
@@ -703,7 +718,7 @@ const Registration: React.FC = () => {
           </button>
           <button
             onClick={() => setSelectedType('team')}
-            className={`p-4 md:p-8 border-2 flex flex-col items-center gap-2 md:gap-4 transition-all ${
+            className={`p-4 md:p-8 border-2 rounded-xl shadow-md hover:shadow-lg active:scale-95 cursor-pointer flex flex-col items-center gap-2 md:gap-4 transition-all ${
               selectedType === 'team'
                 ? 'border-brand bg-brand-light'
                 : 'border-zinc-200 hover:border-orange-300'
@@ -719,6 +734,7 @@ const Registration: React.FC = () => {
             <motion.div
               key={selectedType}
               ref={formSectionRef}
+              id="registration-form"
               style={{ scrollMarginTop: '96px' }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
