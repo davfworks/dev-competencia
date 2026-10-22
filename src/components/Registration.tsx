@@ -5,9 +5,12 @@ import * as z from 'zod';
 import type { RegistrationData } from '../types';
 import registrationData from '../data/registration.json';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PlusCircle, Trash2, User, Users, Upload, ArrowLeft, FileText, Landmark } from 'lucide-react';
+import { PlusCircle, Trash2, User, Users, Upload, ArrowLeft, FileText, Landmark, Ticket } from 'lucide-react';
 
 const cfg = registrationData as RegistrationData;
+
+// Poner en false para reabrir las inscripciones.
+const SOLD_OUT = true;
 
 const dateRegex = /^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
 const phoneRegex = /^\d{10}$/;
@@ -704,6 +707,31 @@ const Registration: React.FC = () => {
           <p className="text-zinc-600 text-lg uppercase tracking-widest">{cfg.description}</p>
         </div>
 
+        {SOLD_OUT ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 120, damping: 14 }}
+            className="relative overflow-hidden rounded-2xl border-b-4 border-black/25 bg-brand px-6 py-10 md:py-14 text-center shadow-xl shadow-brand/30"
+          >
+            <div className="absolute -top-10 -left-10 h-40 w-40 rounded-full bg-accent/20 blur-2xl" />
+            <div className="absolute -bottom-10 -right-10 h-40 w-40 rounded-full bg-accent/20 blur-2xl" />
+            <motion.div
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              className="relative"
+            >
+              <Ticket className="mx-auto mb-4 h-10 w-10 md:h-14 md:w-14 text-accent" />
+              <h3 className="text-3xl md:text-6xl font-black uppercase italic tracking-widest text-white">
+                ¡Inscripciones <span className="text-accent">agotadas!</span>
+              </h3>
+              <p className="mt-4 text-xs md:text-sm font-bold uppercase tracking-widest text-white/80">
+                Gracias por tu interés · Nos vemos en la Travesía
+              </p>
+            </motion.div>
+          </motion.div>
+        ) : (
         <div className="grid grid-cols-2 gap-3 md:gap-6 mb-12">
           <button
             onClick={() => setSelectedType('individual')}
@@ -728,9 +756,10 @@ const Registration: React.FC = () => {
             <span className="font-black uppercase italic tracking-widest text-sm md:text-xl">Grupal</span>
           </button>
         </div>
+        )}
 
         <AnimatePresence mode="wait">
-          {selectedType && (
+          {!SOLD_OUT && selectedType && (
             <motion.div
               key={selectedType}
               ref={formSectionRef}
